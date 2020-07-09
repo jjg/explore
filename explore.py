@@ -36,11 +36,20 @@ class Planet:
       return False
 
   def _in_atmosphere(self, other):
-    # Calculate to see if the planet is within visual range
+    # Calculate to see if the other is within the atmosphere of the planet
     if ((abs(self.x) + (self.atmosphere_diameter/2)) - abs(other.x) > 0 
       and (abs(self.y) + (self.atmosphere_diameter/2)) - abs(other.y) > 0 
       and (abs(self.z) + (self.atmosphere_diameter/2)) - abs(other.z) > 0):  
       return True
+    else:
+      return False
+
+  def _on_surface(self, other):
+    # Calculate to see if the other is within the surface of the planet 
+    if ((self.x - other.x) < self.x + (self.diameter/2) 
+      and (self.y - other.y) < self.y + (self.diameter/2) 
+      and (self.z - other.z) < self.z + (self.diameter/2)):  
+      return True 
     else:
       return False
 
@@ -49,18 +58,22 @@ class Planet:
     self.y = y
     self.z = z
     self.get_location = self._get_location
-    self.surface_diameter = diameter 
+    self.diameter = diameter 
     self.atmosphere_diameter = diameter + 5
     self.description = description
     self.in_range = self._in_range
     self.in_atmosphere = self._in_atmosphere
+    self.on_surface = self._on_surface
 
 def render_scene():
   # TODO: If you are on a planet, say so and don't enumerate others
   scene = "You see...\n"
   for planet in planets:
-    if planet.in_range(ship):
-      scene += f"{planet.description} at {planet.get_location()}\n"
+    if planet.on_surface(ship):
+      scene = f"You have landed on {planet.description}\n"
+    else:
+      if planet.in_range(ship):
+        scene += f"{planet.description} at {planet.get_location()}\n"
   scene += "...and stars as far as the eyes can see..."
   print(scene)
 
@@ -95,7 +108,7 @@ ship = Ship()
 # TODO: Generate planets procedurally (except perhaps "home"?)
 planets = [
   Planet("Your home planet",15,0,0,0),
-  Planet("Your home planet's moon",5,15,15,0)
+  Planet("Your home planet's moon",5,150,150,150)
 ]
 action = ""
 
