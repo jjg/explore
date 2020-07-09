@@ -14,7 +14,7 @@ class Ship:
     return f"{self.x}:{self.y}:{self.z}"
 
   def __init__(self):
-    self.fuel = 100
+    self.fuel = 1000
     self.x = 0
     self.y = 0
     self.z = 0
@@ -35,6 +35,15 @@ class Planet:
     else:
       return False
 
+  def _in_atmosphere(self, other):
+    # Calculate to see if the planet is within visual range
+    if ((abs(self.x) + (self.atmosphere_diameter/2)) - abs(other.x) > 0 
+      and (abs(self.y) + (self.atmosphere_diameter/2)) - abs(other.y) > 0 
+      and (abs(self.z) + (self.atmosphere_diameter/2)) - abs(other.z) > 0):  
+      return True
+    else:
+      return False
+
   def __init__(self, description, diameter, x, y, z):
     self.x = x
     self.y = y
@@ -44,6 +53,7 @@ class Planet:
     self.atmosphere_diameter = diameter + 5
     self.description = description
     self.in_range = self._in_range
+    self.in_atmosphere = self._in_atmosphere
 
 def render_scene():
   # TODO: If you are on a planet, say so and don't enumerate others
@@ -63,16 +73,18 @@ def render_stats():
   print(f"{stats} ")
 
 def render_actions():
-  actions = f"(m)ove, (q)uit"
+  actions = f"(m)ove, (q)uit "
   if player.get_location() == ship.get_location():
     if ship.boarded:
-      actions += " (u)nboard"
+      actions += "(u)nboard "
       if ship.landed:
-        actions += " (l)aunch"
+        actions += "(l)aunch "
+      else:
+        for planet in planets:
+          if planet.in_atmosphere(ship):
+            actions += "lan(d) "
     else:
-      actions += " (b)oard"
-  # TODO: If the ship is within the atmosphere of a planet,
-  # display the "lan(d)" option
+      actions += "(b)oard "
   print(f"{actions} ")
 
 # Init
@@ -80,15 +92,11 @@ def render_actions():
 v_range = 10
 player = Player()
 ship = Ship()
+# TODO: Generate planets procedurally (except perhaps "home"?)
 planets = [
   Planet("Your home planet",15,0,0,0),
   Planet("Your home planet's moon",5,15,15,0)
 ]
-#planets.append(
-#  Planet("Your home planet",15,0,0,0)
-#)
-
-
 action = ""
 
 # Begin the main loop
