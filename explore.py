@@ -1,12 +1,22 @@
+import math
+
+def get_distance(a, b):
+
+  d = math.sqrt(math.pow(b.x - a.x, 2) +
+    math.pow(b.y - a.y, 2) +
+    math.pow(b.z - a.z, 2) * 1.0)
+
+  return d
+
 class Player:
   def _get_location(self):
     return f"{self.x}:{self.y}:{self.z}"
 
   def __init__(self):
-    self.life = 100
-    self.x = 0
-    self.y = 0
-    self.z = 0
+    self.life = 100.0
+    self.x = 0.0
+    self.y = 0.0
+    self.z = 0.0
     self.get_location = self._get_location 
 
 class Ship:
@@ -14,10 +24,10 @@ class Ship:
     return f"{self.x}:{self.y}:{self.z}"
 
   def __init__(self):
-    self.fuel = 1000
-    self.x = 0
-    self.y = 0
-    self.z = 0
+    self.fuel = 1000.0
+    self.x = 0.0
+    self.y = 0.0
+    self.z = 0.0
     self.get_location = self._get_location 
     self.boarded = False
     self.landed = True
@@ -27,36 +37,29 @@ class Planet:
     return f"{self.x}:{self.y}:{self.z}"
 
   def _in_range(self, other):
-    # Calculate to see if the planet is within visual range
-    if ((abs(self.x) + (self.atmosphere_diameter/2) + v_range) - abs(other.x) > 0 
-      and (abs(self.y) + (self.atmosphere_diameter/2) + v_range) - abs(other.y) > 0 
-      and (abs(self.z) + (self.atmosphere_diameter/2) + v_range) - abs(other.z) > 0):  
+    if get_distance(self, other) < v_range:
       return True
     else:
       return False
-
+    
   def _in_atmosphere(self, other):
     # Calculate to see if the other is within the atmosphere of the planet
-    if ((abs(self.x) + (self.atmosphere_diameter/2)) - abs(other.x) > 0 
-      and (abs(self.y) + (self.atmosphere_diameter/2)) - abs(other.y) > 0 
-      and (abs(self.z) + (self.atmosphere_diameter/2)) - abs(other.z) > 0):  
+    if get_distance(self, other) < (self.atmosphere_diameter/2):
       return True
     else:
       return False
 
   def _on_surface(self, other):
     # Calculate to see if the other is within the surface of the planet 
-    if ((self.x - other.x) < self.x + (self.diameter/2) 
-      and (self.y - other.y) < self.y + (self.diameter/2) 
-      and (self.z - other.z) < self.z + (self.diameter/2)):  
-      return True 
+    if get_distance(self, other) < (self.diameter/2):
+      return True
     else:
       return False
 
   def __init__(self, description, diameter, x, y, z):
-    self.x = x
-    self.y = y
-    self.z = z
+    self.x = float(x)
+    self.y = float(y)
+    self.z = float(z)
     self.get_location = self._get_location
     self.diameter = diameter 
     self.atmosphere_diameter = diameter + 5
@@ -69,6 +72,10 @@ def render_scene():
   # TODO: If you are on a planet, say so and don't enumerate others
   scene = "You see...\n"
   for planet in planets:
+
+    # DEBUG
+    #print(f"{planet.description}, distance: {get_distance(planet, ship)}")
+
     if planet.on_surface(ship):
       scene = f"You have landed on {planet.description}\n"
     else:
@@ -102,7 +109,7 @@ def render_actions():
 
 # Init
 # TODO: We're using "globals" that should probably be scoped better
-v_range = 10
+v_range = 100
 player = Player()
 ship = Ship()
 # TODO: Generate planets procedurally (except perhaps "home"?)
@@ -130,7 +137,7 @@ while action != "q":
   # Evaluate the action
   if action == "m":
     direction = input("Direction (x,y,z)? ")
-    distance = int(input("Distance? "))
+    distance = float(input("Distance? "))
     if ship.boarded:
       if distance > ship.fuel:
         print("Not enough fuel to go that far!")
