@@ -9,11 +9,12 @@ def render_scene():
     #print(f"{planet.description}, distance: {get_distance(planet, ship)}")
 
     if planet.on_surface(ship):
-      scene = f"You have landed on {planet.description}\n"
+      scene = f"You are on the surface of {planet.name}\n"
     else:
       if planet.in_range(ship):
         scene += f"{planet.description} at {planet.x}:{planet.y}:{planet.z}\n"
-  scene += "...and stars as far as the eyes can see..."
+  if not ship.landed:
+    scene += "...and stars as far as the eyes can see..."
   print(scene)
 
 def render_stats():
@@ -41,16 +42,25 @@ def render_actions():
 
 # Init
 # TODO: We're using "globals" that should probably be scoped better
-player = Player()
+# We start on the player's home planet (for now)
+petra =  Planet("Petra", "Your home planet", 50, 0,0,0)
+elno = Planet("Elno", "Petra's moon", 10, 200,0,0)
+
+planets = []
+planets.append(petra)
+planets.append(elno)
+# TODO: Generate more planets procedurally
+
+# Create a ship for the player to fly and put it on the planet's surface
 ship = Ship()
-# TODO: Generate planets procedurally (except perhaps "home"?)
-planets = [
-  Planet("Petra", "Your home planet", 100, 0,0,0),
-  Planet("Elno", "Petra's moon", 50, 200,0,0)
-]
-action = ""
+ship.z = petra.z + petra.radius 
+
+# Create the player and put them in the ship
+player = Player()
+player.z = ship.z
 
 # Begin the main loop
+action = ""
 while action != "q":
 
   # Display the current stats
