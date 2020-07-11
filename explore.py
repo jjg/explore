@@ -113,6 +113,7 @@ v_range = 100
 player = Player()
 ship = Ship()
 # TODO: Generate planets procedurally (except perhaps "home"?)
+# TODO: These planets are too small
 planets = [
   Planet("Your home planet",15,0,0,0),
   Planet("Your home planet's moon",5,150,150,150)
@@ -179,9 +180,11 @@ while action != "q":
     if ship.landed:
       print("The ship is on the ground already!")
     else:
+      # TODO: Move ship to planet's surface
       ship.landed = True
   if action == "l":
     if ship.landed:
+      # TODO: Move ship to planet's atmosphere
       ship.landed = False
     else:
       print("The ship is already launched!")
