@@ -1,3 +1,5 @@
+#!/usr/env/python
+
 from bodies import Player, Ship, Planet
 
 def render_scene():
@@ -48,7 +50,7 @@ elno = Planet("Elno", "Petra's moon", 10, 200,0,0)
 
 class Universe:
   def __init__(self):
-    self.galaxes = []
+    self.galaxies = []
 
 class Galaxy:
   def __init__(self, name, x, y, z):
@@ -60,9 +62,9 @@ class Galaxy:
     self.z = z
     self.systems = []
 
-Class System:
+class System:
   def __init__(self, name, x, y, z):
-    self.name
+    self.name = name
     self.x = x
     self.y = y
     self.z = z
@@ -73,10 +75,17 @@ Class System:
     self.ships = []
 
 known_universe = Universe()
-known_universe.galaxies
-planets = []
-planets.append(petra)
-planets.append(elno)
+known_universe.galaxies.append(Galaxy("Milky Way", 0, 0, 0))
+known_universe.galaxies[0].systems.append(System("Esties", 0,0,0))
+known_universe.galaxies[0].systems[0].planets.append(petra)
+known_universe.galaxies[0].systems[0].planets.append(elno)
+
+#planets = []
+#planets.append(petra)
+#planets.append(elno)
+
+planets = known_universe.galaxies[0].systems[0].planets
+
 # TODO: Generate more planets procedurally
 
 # Create a ship for the player to fly and put it on the planet's surface
