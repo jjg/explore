@@ -4,7 +4,7 @@ class Universe:
 
 class Galaxy:
   def __init__(self, name, x, y, z):
-    self.name = ""
+    self.name = name 
     # TODO: Calculate radius based on systems
     self.radius = 0.0
     self.x = x
