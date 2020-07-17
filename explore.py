@@ -1,5 +1,6 @@
 #!/usr/env/python
 
+from god import Universe, Galaxy, System
 from bodies import Player, Ship, Planet
 
 def render_scene():
@@ -44,51 +45,23 @@ def render_actions():
 
 # Init
 # TODO: We're using "globals" that should probably be scoped better
-# We start on the player's home planet (for now)
-petra =  Planet("Petra", "Your home planet", 50, 0,0,0)
-elno = Planet("Elno", "Petra's moon", 10, 200,0,0)
-
-class Universe:
-  def __init__(self):
-    self.galaxies = []
-
-class Galaxy:
-  def __init__(self, name, x, y, z):
-    self.name = ""
-    # TODO: Calculate radius based on systems
-    self.radius = 0.0
-    self.x = x
-    self.y = y
-    self.z = z
-    self.systems = []
-
-class System:
-  def __init__(self, name, x, y, z):
-    self.name = name
-    self.x = x
-    self.y = y
-    self.z = z
-    # TODO: Calculate radius based on planets
-    self.radius = 0.0
-    self.stars = []
-    self.planets = []
-    self.ships = []
-
 known_universe = Universe()
+
+# TODO: Generate the Universe procedureally
 known_universe.galaxies.append(Galaxy("Milky Way", 0, 0, 0))
 known_universe.galaxies[0].systems.append(System("Esties", 0,0,0))
-known_universe.galaxies[0].systems[0].planets.append(petra)
-known_universe.galaxies[0].systems[0].planets.append(elno)
+known_universe.galaxies[0].systems[0].planets.append(
+  Planet("Petra", "Your home planet", 50, 0,0,0)
+)
+known_universe.galaxies[0].systems[0].planets.append(
+  Planet("Elno", "Petra's moon", 10, 200,0,0)
+)
 
-#planets = []
-#planets.append(petra)
-#planets.append(elno)
-
+# TODO: This is cheating...I think
 planets = known_universe.galaxies[0].systems[0].planets
 
-# TODO: Generate more planets procedurally
-
 # Create a ship for the player to fly and put it on the planet's surface
+# We start on the player's home planet (for now)
 ship = Ship()
 ship.z = petra.z + petra.radius 
 
