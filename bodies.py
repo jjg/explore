@@ -29,6 +29,23 @@ class Ship(Body):
     self.boarded = False
     self.landed = True
 
+class Star(Body):
+  def __init__(self, name, description, radius, x, y, z):
+    super().__init__()
+    self.radius = radius
+    self.heliosphere_radius = self.radius + 5
+    self.name = name
+    self.description = description
+    self.x = x
+    self.y = y
+    self.z = z
+
+  def in_range(self, other_body):
+    if self.get_distance(other_body) < v_range:
+      return True
+    else:
+      return False
+
 class Planet(Body):
   def __init__(self, name, description, radius, x, y, z):
     super().__init__()
