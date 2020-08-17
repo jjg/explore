@@ -17,25 +17,14 @@ class Body:
 
     return d
 
-class Player(Body):
-  def __init__(self):
-    super().__init__()
-    self.life = 100
-
-class Ship(Body):
-  def __init__(self):
-    super().__init__()
-    self.fuel = 1000
-    self.boarded = False
-    self.landed = True
 
 class Star(Body):
-  def __init__(self, name, description, radius, x, y, z):
+  def __init__(self, x, y, z, radius, name=""):
     super().__init__()
     self.radius = radius
-    self.heliosphere_radius = self.radius + 5
+    # TODO: Calculate the heliosphere based on mass, etc.
+    self.heliosphere = self.radius * 5
     self.name = name
-    self.description = description
     self.x = x
     self.y = y
     self.z = z
@@ -74,3 +63,15 @@ class Planet(Body):
       return True
     else:
       return False
+
+class Player(Body):
+  def __init__(self):
+    super().__init__()
+    self.life = 100
+
+class Ship(Body):
+  def __init__(self):
+    super().__init__()
+    self.fuel = 1000
+    self.boarded = False
+    self.landed = True
