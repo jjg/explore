@@ -10,11 +10,13 @@ known_universe = Universe()
 # within the bounds of the universe
 
 max_stars = 10
-universe_bounds = 1000000
+universe_bounds = 1000
+universe_max = universe_bounds / 2
+universe_min = universe_bounds - universe_max 
 
 stars = []
 for _ in range(max_stars):
-    x = randrange(0, universe_bounds)
-    y = randrange(0, universe_bounds)
-    z = randrange(0, universe_bounds)
-    stars.append(Star(x,y,z
+    x = randrange(universe_min, universe_max)
+    y = randrange(universe_min, universe_max)
+    z = randrange(universe_min, universe_max)
+    stars.append(Star(x,y,z))
