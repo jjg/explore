@@ -36,7 +36,7 @@ class Star(Body):
       return False
 
 class Planet(Body):
-  def __init__(self, name, description, radius, x, y, z):
+  def __init__(self, x, y, z, radius, name="", description=""):
     super().__init__()
     self.radius = radius
     self.atmosphere_radius = self.radius + 5
