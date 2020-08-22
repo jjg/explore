@@ -1,4 +1,4 @@
-#!/usr/env/python
+#!/usr/bin/env python
 
 from god import Universe, Galaxy, System
 from bodies import Player, Ship, Planet
