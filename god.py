@@ -29,7 +29,7 @@ class Universe:
             x = randrange(self.min, self.max)
             y = randrange(self.min, self.max)
             z = randrange(self.min, self.max)
-            star_size = randrange(1, max_star_size)
+            star_size = randrange(2, max_star_size)
             name = str(time.time())
             self.stars.append(Star(x,y,z, star_size, name))
 
@@ -41,7 +41,7 @@ class Universe:
             max_planets = int(star.radius)
 
             # Randomly pick a number of planets to create
-            planet_count = randrange(0,max_planets)
+            planet_count = randrange(1,max_planets)
             
             # DEBUG
             print(f"Adding {planet_count} planets to {star.name} system")
