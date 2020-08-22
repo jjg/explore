@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import time
 from random import randrange
 
@@ -10,8 +11,8 @@ from bodies import Star, Planet, Ship
 max_stars = 5 
 star_size = 1
 max_planets_per_system = 9
-# TODO Stuff breakds if bounds doesn't divide evenly, fix that 
-universe_bounds = 60 
+# TODO Stuff breakd if bounds doesn't divide evenly, fix that 
+universe_bounds = 40 
 universe_max = universe_bounds / 2
 universe_min = 0 - universe_max 
 
@@ -62,7 +63,7 @@ def render_list():
 
 def render_map():
     # TODO: Can we merge the list and map to show side-by-side?
-    zoom = 2 
+    zoom = 1 
     axis_min = int(universe_min/zoom)
     axis_max = int(universe_max/zoom)
 
